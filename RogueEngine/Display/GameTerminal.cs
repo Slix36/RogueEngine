@@ -329,11 +329,7 @@ namespace RogueEngine
 
 		public void write(char c, int x, int y, RColor fore, RColor back)
 		{
-			Tile temp = new Tile();
-
-			temp.glyph = c;
-			temp.foreGround = fore;
-			temp.backGround = back;
+			Tile temp = new Tile(c, fore, back);
 			
 			oldGlyphs[x,y] = glyphs[x,y];
 
@@ -502,16 +498,15 @@ namespace RogueEngine
 				{
 					for (int i = 0; i < width; i++)
 					{
-						TCODConsole.root.putChar(i, j, glyphs[i, j].glyph, TCODBackgroundFlag.None);
+						Tile temp = glyphs[i, j];
+
 						if (transparency)
 						{
-							TCODConsole.root.setCharForeground(i, j, glyphs[i, j].foreGround.GetTCODColor(TCODConsole.root.getCharForeground(i - x, j - y)));
-							TCODConsole.root.setCharBackground(i, j, glyphs[i, j].backGround.GetTCODColor(TCODConsole.root.getCharBackground(i - x, j - y)));
+							TCODConsole.root.putCharEx(i, j, temp.glyph, temp.foreGround.GetTCODColor(TCODConsole.root.getCharForeground(i - x, j - y)), temp.backGround.GetTCODColor(TCODConsole.root.getCharBackground(i - x, j - y)));
 						}
 						else
 						{
-							TCODConsole.root.setCharForeground(i, j, glyphs[i, j].foreGround.GetTCODColor());
-							TCODConsole.root.setCharBackground(i, j, glyphs[i, j].backGround.GetTCODColor());
+							TCODConsole.root.putCharEx(i, j, temp.glyph, temp.foreGround.GetTCODColor(), temp.backGround.GetTCODColor());
 						}
 					}
 				}
@@ -522,16 +517,15 @@ namespace RogueEngine
 				{
 					for (int i = 0; i < width; i++)
 					{
-						terminal.putChar(i, j, glyphs[i, j].glyph, TCODBackgroundFlag.None);
+						Tile temp = glyphs[i, j];
+
 						if (transparency)
 						{
-							terminal.setCharForeground(i, j, glyphs[i, j].foreGround.GetTCODColor(TCODConsole.root.getCharForeground(i - x, j - y)));
-							terminal.setCharBackground(i, j, glyphs[i, j].backGround.GetTCODColor(TCODConsole.root.getCharBackground(i - x, j - y)));
+							terminal.putCharEx(i, j, temp.glyph, temp.foreGround.GetTCODColor(TCODConsole.root.getCharForeground(i - x, j - y)), temp.backGround.GetTCODColor(TCODConsole.root.getCharBackground(i - x, j - y)));
 						}
 						else
 						{
-							terminal.setCharForeground(i, j, glyphs[i, j].foreGround.GetTCODColor());
-							terminal.setCharBackground(i, j, glyphs[i, j].backGround.GetTCODColor());
+							terminal.putCharEx(i, j, temp.glyph, temp.foreGround.GetTCODColor(), temp.backGround.GetTCODColor());
 						}
 					}
 				}
